@@ -1,20 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define LEN 200
+#define LEN 2000
 char *s_gets(char *, int);
 int lengthOfLongestSubstring(char*);
 int main(void)
 {
 	char string[LEN];
-	char child[LEN];
 	printf("Please input a string here:\n");
 	s_gets(string, LEN);
-	printf("Your word is:\n");
-	int len;
-
-	len = (int)strlen(string);
-	printf("Your word lenth is %d\n", len);
+	printf("%d\n", lengthOfLongestSubstring(string));
 	return 0;
 }
 
@@ -34,18 +29,19 @@ char *s_gets(char *str, int len)
 
 int lengthOfLongestSubstring(char *str)
 {
-	int len = (int)strlen(str);
-	char temp[len] = {0};
+	int hash[128];
+	memset(hash, -1, sizeof(hash));
+	int left = 0;
+	int max_len = 0;
 
-	
-
-	strcpy(temp, str);
-
-	for (int i = 0; i < len; i++) {
-		
-	
-
-
-
-
-
+	for (int right = 0; str[right] != '\0'; right++) {
+		if (hash[str[right]] >= left) {
+			left = hash[str[right]] + 1;
+		}
+		hash[str[right]] = right;
+		int current_len = right - left + 1;
+		if (current_len > max_len)
+			max_len = current_len;
+	}
+	return max_len;
+}
